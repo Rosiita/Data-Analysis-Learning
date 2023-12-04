@@ -1,0 +1,245 @@
+-- Afficher le contenu de la table Artists
+SELECT * FROM artists;
+
+-- Ajouter des lignes à la table Artists
+INSERT INTO artists (ArtistId, Name)
+VALUES (276, 'John Legend');
+
+INSERT INTO artists (ArtistId, Name)
+VALUES (277, 'Johnny Hallyday');
+
+INSERT INTO artists (ArtistId, Name)
+VALUES (278, 'Ariana Grande');
+
+INSERT INTO artists (ArtistId, Name)
+VALUES (279, 'Beyonce');
+
+INSERT INTO artists (ArtistId, Name)
+VALUES (280, 'Chris Brown');
+
+INSERT INTO artists (ArtistId, Name)
+VALUES (281, 'Me GIMS');
+
+INSERT INTO artists (ArtistId, Name)
+VALUES (282, 'Dadju');
+
+-- Afficher la table Artists mise à jour
+SELECT * FROM artists;
+
+-- Afficher le contenu de la table Employees
+SELECT * FROM employees;
+
+-- Insertion de nouvelles lignes en une seule commande
+INSERT INTO employees (EmployeeId, LastName, FirstName, Title, ReportsTo, BirthDate, HireDate, Address, City, State, Country, PostalCode, Phone, Fax, Email)
+VALUES 
+(9, 'Morrison', 'James', 'Sales Support Agent', 2, '1979-12-08 00:00:00', '2010-01-01 00:00:00', '12500 Foire', 'Dakar', 'NY', 'USA', 'BP 5428', '+1(847)584-8745', '+1(847)584-8745', 'abcdefg@gmail.com'),
+(10, 'Edison', 'Thomas', 'Sales Manager', 1, '1980-08-08 00:00:00', '2010-02-01 00:00:00', '12000 Fass', 'Dakar', 'NY', 'USA', 'BP 9856', '+1(587)645-7852', '+1(587)584-8745', 'hijklmn@gmail.com'),
+(11, 'Ndiaye', 'Moussa', 'Accountant', 1, '1958-05-02 00:00:00', '2000-07-01 00:00:00', '12500 Yoff', 'Dakar', 'NY', 'USA', 'BP 7854', '+1(325)452-9523', '+1(325)584-2587', 'opqrst@gmail.com'),
+(12, 'Faye', 'Mareme', 'Technical Support Agent', 2, '1990-07-25 00:00:00', '2012-01-01 00:00:00', '12000 Grand Dakar', 'Dakar', 'NY', 'USA', 'BP 8520', '+1(753)025-8745', '+1(753)741-8745', 'uvwxyz@gmail.com'),
+(13, 'Mane', 'Sadio', 'Technical Manager', 1, '1988-03-02 00:00:00', '2014-01-01 00:00:00', '12500 Foire', 'Dakar', 'NY', 'USA', 'BP 5428', '+1(847)452-2587', '+1(847)025-7852', 'defghi@gmail.com'),
+(14, 'Ronaldo', 'Cristiano', 'General Manager', NULL, '1982-12-25 00:00:00', '2010-01-01 00:00:00', '12000 Dakar', 'Dakar', 'NY', 'USA', 'BP 5428', '+1(258)584-8745', '+1(258)584-8745', 'jklmno@gmail.com'),
+(15, 'Diouf', 'Rokhaya', 'Technical Support Agent', 2, '1975-05-08 00:00:00', '2016-01-01 00:00:00', '12500 Nord Foire', 'Dakar', 'NY', 'USA', 'BP 5428', '+1(357)584-8745', '+1(357)584-8745', 'pqrstu@gmail.com'),
+(16, 'Diop', 'Modou', 'Sales Support Agent', 2, '1978-06-04 00:00:00', '2009-01-01 00:00:00', '12500 Ouest Foire', 'Dakar', 'NY', 'USA', 'BP 5428', '+1(249)584-8745', '+1(249)584-8745', 'vwxyzabc@gmail.com');
+
+-- Afficher la table Employees mise à jour
+SELECT * FROM employees;
+
+-- Création d'une nouvelle table 'Amateurs'
+CREATE TABLE amateurs (
+id INT PRIMARY KEY,
+last_name NVARCHAR(30),
+first_name NVARCHAR(50),
+preference NVARCHAR(70)
+);
+
+-- Ajouter des lignes à la table Amateurs
+INSERT INTO amateurs (id, last_name, first_name, preference)
+VALUES
+(1, 'Mbaye', 'Amy', 'Slow'),
+(2, 'Aw', 'Zeyna', 'Hip Hop'),
+(3, 'Ba', 'Aida', 'Mbalax'),
+(4, 'Cisse', 'Diarra', 'RnB'),
+(5, 'Dia', 'Khady', 'Salsa'),
+(6, 'Fall', 'Gora', 'Rap'),
+(7, 'Gueye', 'Saliou', 'Slow'),
+(8, 'Hanne', 'Tapha', 'RnB'),
+(9, 'Kane', 'Cheikh', 'Hip Hop'),
+(10, 'Lo', 'Serigne', 'Slow'),
+(11, 'Tall', 'Sira', 'Slow');
+
+-- Afficher la table Amateurs mise à jour
+SELECT * FROM amateurs;
+
+-- Ajouter une colonne Phone à la table Amateurs
+ALTER TABLE amateurs 
+ADD COLUMN Phone INT;
+
+-- Ajouter une colonne Email à la table Amateurs
+ALTER TABLE amateurs 
+ADD COLUMN Email NVARCHAR(30);
+
+-- Mise à jour de la colonne Phone dans la table Amateurs
+UPDATE amateurs
+SET Phone = 771002030
+WHERE id = 1;
+
+UPDATE amateurs
+SET Phone = 771010030
+WHERE id = 2;
+
+UPDATE amateurs
+SET Phone = 771038750
+WHERE id = 3;
+
+UPDATE amateurs
+SET Phone = 7715824505
+WHERE id = 4;
+
+UPDATE amateurs
+SET Phone = 772005824
+WHERE id = 5;
+
+UPDATE amateurs
+SET Phone = 772548454
+WHERE id = 6;
+
+UPDATE amateurs
+SET Phone = 778752582
+WHERE id = 7;
+
+UPDATE amateurs
+SET Phone = 778521452
+WHERE id = 8;
+
+UPDATE amateurs
+SET Phone = 773002030
+WHERE id = 9;
+
+UPDATE amateurs
+SET Phone = 774502030
+WHERE id = 10;
+
+-- Mise à jour de la colonne Email dans la table Amateurs
+UPDATE amateurs
+SET Email = 'abcdefg@mail.com'
+WHERE id = 1;
+
+UPDATE amateurs
+SET Email = 'hijklmn@mail.com'
+WHERE id = 2;
+
+UPDATE amateurs
+SET Email = 'opqrst@mail.com'
+WHERE id = 3;
+
+UPDATE amateurs
+SET Email = 'uvwxyz@mail.com'
+WHERE id = 4;
+
+UPDATE amateurs
+SET Email = 'aoiuey@mail.com'
+WHERE id = 5;
+
+UPDATE amateurs
+SET Email = 'bcdefgh@mail.com'
+WHERE id = 6;
+
+UPDATE amateurs
+SET Email = 'ijklmno@mail.com'
+WHERE id = 7;
+
+UPDATE amateurs
+SET Email = 'pqrstuv@mail.com'
+WHERE id = 8;
+
+UPDATE amateurs
+SET Email = 'wxyzabc@mail.com'
+WHERE id = 9;
+
+UPDATE amateurs
+SET Email = 'defghij@mail.com'
+WHERE id = 10;
+
+-- Afficher la table Amateurs mise à jour
+SELECT * FROM amateurs;
+
+-- Supprimer la ligne n'ayant pas été mise à jour dans la table Amateurs
+DELETE FROM amateurs
+WHERE Phone IS NULL;
+
+-- Afficher la table Amateurs mise à jour
+SELECT * FROM amateurs;
+
+-- Supprimer la table Amateurs
+DROP TABLE amateurs;
+
+-- Afficher les Nom, Prénom, Titre et Date d'Embauche en triant par la Date d'embauche, du plus ancien au plus récent (Ordre Croissant)
+SELECT LastName, FirstName, Title, HireDate
+FROM employees
+ORDER BY HireDate ASC;
+
+-- Afficher les Titres uniques de la table Employees
+SELECT DISTINCT Title FROM employees;
+
+-- Filtrer les données à afficher
+
+-- Afficher les Managers (Employés se référent uniquement aux Directeurs)
+select * from employees WHERE ReportsTo < 2;
+
+-- Afficher les employés ayant pour Code Postal 'BP 5428'
+select * from employees WHERE PostalCode = 'BP 5428';
+
+-- Afficher les Directeurs (Employés ne se référent à personne)
+select * from employees WHERE ReportsTo IS NULL;
+
+-- Afficher les employés se référent à un supérieur
+select * from employees WHERE ReportsTo IS NOT NULL;
+
+-- Afficher les employés vivant hors du Canada
+select * from employees WHERE Country != 'Canada';
+
+-- Afficher dans la table Customers les Noms commençant par 'Jo' suivi par n'importe quelle(s) autre(s) chaine(s) de caractère
+SELECT FirstName, LastName
+FROM customers
+Where FirstName like 'Jo%';
+
+-- Afficher dans la table Customers les Noms contenant 'ar'
+SELECT FirstName, LastName
+FROM customers
+Where FirstName like '%ar%';
+
+-- Afficher dans la table Tracks les Albums dont la durée est comprise entre "110266" et "127399" millisecondes
+SELECT * FROM tracks
+WHERE Milliseconds BETWEEN 110266 AND 127399;
+
+-- Requêtes imbriquées avec plusieurs conditions
+
+-- Afficher les Titres du genreId=1 (Rock) pesant moins de 3836641 Bytes
+SELECT * FROM tracks
+WHERE GenreId = 1
+	AND Bytes < 3836641;
+
+-- Afficher les Titres composés par 'Van Halen' ou 'Kurt Cobain' dans l'ordre Décroissant (Noms de Z à A)
+SELECT * FROM tracks WHERE Composer = 'Van Halen' or Composer = 'Kurt Cobain'
+ORDER BY name DESC;
+
+-- Afficher les Titres en les classifiant selon la longueur
+SELECT name,
+CASE 
+	WHEN Milliseconds < 127399 THEN 'Court'
+	WHEN Milliseconds > 390295 THEN 'Long'
+	ELSE 'Normal'
+END AS 'TAILLE'
+FROM tracks;
+
+-- Calculer la moyenne des montants facturés dans la table invoices
+SELECT round(avg(Total)) AS 'Moyenne facturation' FROM invoices;
+
+-- Calculer la somme des montants facturés dans la table invoices
+SELECT sum(Total) AS 'Total facturation' FROM invoices;
+
+-- Afficher les factures regroupées par Client en faisant un tri sur les Clients ayant passé 7 ou plus de commandes
+select InvoiceDate, BillingAddress, CustomerId, count(CustomerId) as 'nb_Achat' 
+FROM invoices 
+GROUP BY (CustomerId)
+HAVING nb_Achat >= 7;

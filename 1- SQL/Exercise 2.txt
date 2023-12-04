@@ -1,0 +1,313 @@
+-- Afficher la table Invoices
+
+SELECT * FROM invoices;
+
+Contient 412 enregistrements
+
+Elle liste le détail de chaque facture (InvoiceId), le client ayant effectué l'achat (CustomerId), 
+l'adresse de facturation (BillingAddress), le montant de la facture (Total), etc. 
+
+-- Afficher la table Customers
+
+SELECT * FROM customers;
+
+Contient 59 enregistrements
+
+Elle liste le détail sur chaque Client (CustomerId), son prénom (FirstName), son nom (LastName), 
+la compagnie (Company), son adresse (Address), ses coordonnées (Phone, Email), l'Employé support associé au client (SupportRepId)
+
+-- Afficher la table Invoice_items
+
+SELECT * FROM invoice_items;
+
+Contient 2240 enregistrements
+
+Elle liste chaque article unique acheté (InvoiceLineId), la facture correspondante (InvoiceId), son prix (UnitPrice), ainsi que le titre concerné (TrackId)
+
+-- Afficher la table Tracks
+
+SELECT * FROM tracks;
+
+Contient 3503 enregistrements
+
+Elle donne la liste des Titres (TrackId, Name), l'album concerné (AlbumId), le format du fichier (MediaTypeId), 
+le genre musical (GenreId), le Compositeur (Composer), la longueur du Titre (Milliseconds), la taille du fichier (Bytes), le Prix Unitaire (UnitPrice)
+
+-- Afficher la table Employees
+
+SELECT * FROM employees;
+
+Contient 8 enregistrements
+
+Elle détaille les informations des Employés (EmployeeId, LastName, FirstName), sa fonction (Title), son supérieur hiérarchique (ReportsTo), 
+sa Date de naissance (BirthDate), sa date d'embauche (HireDate), son Adresse (Address, City, etc.), ses coordonnées (Phone, Fax, Email)
+
+-- Afficher la table Albums
+
+SELECT * FROM albums;
+
+Contient 347 enregistrements
+
+Elle liste le détail sur les Albums (AlbumId, Title) et l'artiste (ArtistId)
+
+-- Afficher la table Artists
+
+SELECT * FROM artists;
+
+Contient 275 enregistrements
+
+Elle donne les détails sur l'Artiste (ArtistId, Name)
+
+-- Afficher la table Genres
+
+SELECT * FROM genres;
+
+Contient 25 enregistrements
+
+Elle donne les détails sur le Genre Musical (GenreId, Name)
+
+-- Afficher la table Media_Types
+
+SELECT * FROM media_types;
+
+Contient 5 enregistrements
+
+Elle donne les détails sur le format du fichier (MediaTypeId, Name)
+
+-- Afficher la table Playlists
+
+SELECT * FROM playlists;
+
+Contient 18 enregistrements
+
+Elle donne les détails sur les Playlists (PlaylistId, Name)
+
+
+Notre analyse va s'articuler autour de deux Axes : 
+
+- Les ventes effectuées et 
+
+- Les préférences du client en matière de musique. 
+
+Pour ce faire, nous utiliserons les tables suivantes : 
+
+Axe 1 :
+	* Invoices
+	* Customers
+	* Invoice_items
+	* Tracks
+
+Axe 2 :
+	* Albums
+	* Artists
+	* Genres
+	* Tracks
+
+
+I. Analyse des ventes
+
+Tout d'abord, nous allons chercher le nombre total des ventes effectuées sur la période
+
+select sum(total) as TotalDesAchats
+from invoices;
+
+Ainsi donc, nous avons réalisé un Chiffre d'Affaires de 2328.6
+
+Ensuite, définissons le nombre d'achats effectués par Client :
+
+select CustomerId, InvoiceDate, BillingAddress, count(*) as AchatParClient
+from invoices
+group by CustomerId
+order by AchatParClient asc;
+
+Le résultat nous montre que parmi nos 59 clients, 1 client a passé 6 commandes et le reste en a passé 7.
+
+Nous avons obtenu le nombre d'achats par Client, cependant nous aurons besoin du montant total des achats effectués par Client.
+
+select invoices.CustomerId, customers.FirstName, customers.LastName, sum(total) as TotalAchatParClient
+from invoices
+join customers on customers.CustomerId = invoices.CustomerId
+group by invoices.CustomerId
+order by TotalAchatParClient desc;
+
+Lorsqu'on extrait les 5 premiers résultats, le tableau obtenu nous permet de déterminer nos meilleurs clients :
+
+	CustomerId	FirstName	LastName	TotalAchatParClient
+
+1. 	6		Helena		Holý		49.62
+2. 	26		Richard		Cunningham	47.62
+3. 	57		Luis		Rojas		46.62
+4. 	45		Ladislav	Kovács		45.62
+5. 	46		Hugh		O'Reilly	45.62
+
+
+Calculons la Moyenne des ventes par facture
+
+select avg(total) as MoyenneVentes
+from invoices
+order by MoyenneVentes desc;
+
+En moyenne, nous vendons 5.65 par facture.
+
+
+Calculons la Moyenne des ventes en fonction des Pays
+
+select BillingCountry, avg(total) as MoyenneVentesParPays
+from invoices
+group by BillingCountry
+order by MoyenneVentesParPays desc;
+
+
+Voici les 5 premiers pays qui ressortent
+
+	BillingCountry	MoyenneVentesParPays
+
+1.	Chile		6.66
+2.	Ireland		6.51714285714286
+3.	Hungary		6.51714285714286
+4.	Czech Republic	6.44571428571429
+5.	Austria		6.08857142857143
+
+
+A présent, voyons la répartition géographique de nos revenus
+
+Calcul du Nombre de ventes par Pays
+
+select BillingCountry, count(*) as NbVentesParPays
+from invoices
+group by BillingCountry
+order by NbVentesParPays desc;
+
+Voici les 5 premiers pays où nous vendons le plus
+
+	BillingCountry	NbVentesParPays
+
+1.	USA		91
+2.	Canada		56
+3.	France		35
+4.	Brazil		35
+5.	Germany		28
+
+
+Calcul du Chiffre d'Affaires par Pays
+
+select BillingCountry, sum(total) as VentesParPays
+from invoices
+group by BillingCountry
+order by VentesParPays desc;
+
+Voici les 5 Pays où nous avons le meilleur Chiffre d'Affaires
+
+	BillingCountry	VentesParPays
+
+1.	USA		523.06
+2.	Canada		303.96
+3.	France		195.1
+4.	Brazil		190.1
+5.	Germany		156.48
+
+
+II. Analyse des préférences du client en matière de musique
+
+
+Tout d'abord, déterminons les genres musicaux les plus plébiscités
+
+select genres.GenreId, genres.Name, count(genres.GenreId) as VentesParGenre
+from tracks
+join genres on tracks.GenreId = genres.GenreId
+join invoice_items on tracks.TrackId = invoice_items.TrackId
+join invoices on invoice_items.InvoiceId = invoices.InvoiceId
+group by genres.GenreId
+order by VentesParGenre desc;
+
+Voici les 5 genres les plus écoutés
+
+	GenreId	Name			VentesParGenre 
+
+1.	1	Rock			835
+2.	7	Latin			386
+3.	3	Metal			264
+4.	4	Alternative & Punk	244
+5.	2	Jazz			80
+
+
+Nous allons maintenant déterminer parmis les produits, ceux qui sont mieux vendus
+
+select albums.AlbumId, albums.Title, invoices.InvoiceId, count(albums.AlbumId) as NbVenteParAlbum
+from tracks
+join albums on tracks.AlbumId = albums.AlbumId
+join invoice_items on tracks.TrackId = invoice_items.TrackId
+join invoices on invoice_items.InvoiceId = invoices.InvoiceId
+group by tracks.AlbumId
+order by NbVenteParAlbum desc;
+
+Voici donc les Albums les mieux vendus :
+
+	AlbumId	Title		InvoiceId	NbVenteParAlbum
+
+1.	23	Minha Historia	221		27
+2.	141	Greatest Hits	53		26
+3.	73	Unplugged	134		25
+4.	224	Acústico	192		22
+5.	37	Greatest Kiss	333		20
+
+-----------Les Albums invendus :
+
+select a.AlbumId, Title, iit.InvoiceId, i.InvoiceDate 
+from tracks 
+left join albums a on tracks.AlbumId = a.AlbumId 
+left join invoice_items iit on tracks.TrackId = iit.TrackId
+left join invoices i on iit.InvoiceId = i.InvoiceId
+WHERE iit.InvoiceId is NULL
+group by a.AlbumId;
+
+
+Calculons les ventes par Artiste
+
+select artists.ArtistId, artists.Name, count(artists.ArtistId) as NbVentesParArtiste
+from albums
+join artists on albums.ArtistId = artists.ArtistId
+join tracks on albums.AlbumId = tracks.AlbumId
+join invoice_items on tracks.TrackId = invoice_items.TrackId
+group by artists.ArtistId
+order by NbVentesParArtiste desc;
+
+Voici les 5 artistes les plus écoutés
+
+	ArtistId Name			NbVentesParArtiste
+
+1.	90	Iron Maiden		140
+2.	150	U2			107
+3.	50	Metallica		91
+4.	22	Led Zeppelin		87
+5.	113	Os Paralamas Do Sucesso	45
+
+Ce dernier Tableau nous permet de ressortir le Total des Ventes par Artiste
+
+select artists.ArtistId, artists.Name, tracks.TrackId, tracks.UnitPrice, count(artists.ArtistId) as NbVentesParArtiste, ((tracks.UnitPrice)*(count(artists.ArtistId))) as TotalVenteParArtiste
+from albums
+join artists on albums.ArtistId = artists.ArtistId
+join tracks on albums.AlbumId = tracks.AlbumId
+join invoice_items on tracks.TrackId = invoice_items.TrackId
+group by artists.ArtistId
+order by NbVentesParArtiste desc;
+
+
+	ArtistId Name			TrackId 	UnitPrice	NbVentesParArtiste	TotalVenteParArtiste
+
+1.	90	Iron Maiden		1202		0.99		140			138.6
+2.	150	U2			2927		0.99		107			105.93
+3.	50	Metallica		411		0.99		91			90.09
+4.	22	Led Zeppelin		339		0.99		87			86.13
+5.	113	Os Paralamas Do Sucesso	2044		0.99		45			44.55
+
+
+Afficher par album le nombre de ventes et la somme totale collectée par album
+
+select albums.title, sum(total), count(total)
+from tracks
+join albums on tracks.AlbumId = albums.AlbumId
+join invoice_items on tracks.TrackId = invoice_items.TrackId
+join invoices on invoice_items.InvoiceId = invoices.InvoiceId
+group by tracks.AlbumId
+order by count(total) desc;
